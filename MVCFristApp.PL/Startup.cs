@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MVCFristApp.DAL.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,8 @@ namespace MVCFristApp.PL
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            //to register Dependancy injection
+            services.AddDbContext<AppDbContext>();//Defautl Scoped
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
