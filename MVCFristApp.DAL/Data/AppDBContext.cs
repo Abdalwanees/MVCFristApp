@@ -10,9 +10,13 @@ namespace MVCFristApp.DAL.Data
 {
     public class AppDbContext :DbContext
     {
+        protected AppDbContext(DbContextOptions<AppDbContext> options):base(options)
+        {
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=0;Database=MVCDb;Trusted_Connection=True;MultipleActiveResultSets=true");
+            optionsBuilder.UseSqlServer();
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

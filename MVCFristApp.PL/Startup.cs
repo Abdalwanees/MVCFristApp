@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,7 +27,14 @@ namespace MVCFristApp.PL
         {
             services.AddControllersWithViews();
             //to register Dependancy injection
-            services.AddDbContext<AppDbContext>();//Defautl Scoped
+            services.AddDbContext<AppDbContext>(options =>
+            {
+                options.UseSqlServer("Server=.;Database=MVCDb;Trusted_Connection=True;MultipleActiveResultSets=true");
+            },
+             ServiceLifetime.Scoped, // This sets the lifetime for the DbContext itself
+             ServiceLifetime.Scoped  // This sets the lifetime for the options being used by the DbContext
+             );
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
