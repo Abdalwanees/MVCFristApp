@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace MVCFristApp.DAL.Models
 {
     // Class Represent message on DB
-    internal class Department
+    public class Department
     {
         public int Id { get; set; }
         //[Required(ErrorMessage ="Code Is Reqired!.")] //-->Put it in View Model

@@ -8,12 +8,16 @@ using System.Threading.Tasks;
 
 namespace MVCFristApp.DAL.Data
 {
-    internal class AppDbContext :DbContext
+    public class AppDbContext :DbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public AppDbContext(DbContextOptions<AppDbContext> options):base(options)
         {
-            optionsBuilder.UseSqlServer("Server=0;Database=MVCDb;Trusted_Connection=True;MultipleActiveResultSets=true");
         }
+
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+            
+        //}
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(System.Reflection.Assembly.GetExecutingAssembly());
