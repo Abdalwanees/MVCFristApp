@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MVCFristApp.BLL.Interfaces;
+using MVCFristApp.BLL.Repositories;
 using MVCFristApp.DAL.Data;
 using System;
 using System.Collections.Generic;
@@ -34,6 +36,7 @@ namespace MVCFristApp.PL
              ,ServiceLifetime.Scoped, // This sets the lifetime for the DbContext itself
              ServiceLifetime.Scoped  // This sets the lifetime for the options being used by the DbContext
              );
+            services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 
             
 

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MVCFristApp.BLL.Repositories
 {
-    internal class DepartmentRepository : IDepartmentRepository
+    public class DepartmentRepository : IDepartmentRepository
     {
         private readonly AppDbContext _dbContext;
         public DepartmentRepository(AppDbContext dbContext)
