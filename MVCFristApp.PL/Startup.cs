@@ -29,11 +29,13 @@ namespace MVCFristApp.PL
             //to register Dependancy injection
             services.AddDbContext<AppDbContext>(options =>
             {
-                options.UseSqlServer("Server=.;Database=MVCDb;Trusted_Connection=True;MultipleActiveResultSets=true");
-            },
-             ServiceLifetime.Scoped, // This sets the lifetime for the DbContext itself
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            }
+             ,ServiceLifetime.Scoped, // This sets the lifetime for the DbContext itself
              ServiceLifetime.Scoped  // This sets the lifetime for the options being used by the DbContext
              );
+
+            
 
         }
 
