@@ -16,7 +16,8 @@ namespace MVCFristApp.PL.Controllers
         {
             //GetAll()
             var Department=_departmentRepository.GetAll();
-            return View();
+            return View(Department);//View with same Action
         }
+        
     }
 }
