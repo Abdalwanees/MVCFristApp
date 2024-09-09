@@ -1,0 +1,35 @@
+﻿
+@{
+    ViewData["Title"] = "Delete";
+}
+
+@{
+    ViewData["Title"] = "Details";
+}
+@model Department
+
+<div class="min-vh-100 d-flex align-items-center flex-column justify-content-center">
+    <div class="w-75 shadow shadow-sm rounded rounded-5 bg-white p-3">
+        <div class="header mb-3">
+            <h1 class="alert alert-warning ">Are you sure you want to delete this Project.</h1>
+        </div>
+        <div class="body">
+            <div>
+                <label asp-for="Code" class="col-form-label"></label>
+                <input type="text" asp-for="Code" class="form-control" readonly />
+            </div>
+            <div>
+                <label asp-for="Name" class="col-form-label"></label>
+                <input type="text" asp-for="Name" class="form-control" readonly />
+            </div>
+            <div>
+                <label asp-for="DateOfCreation" class="col-form-label"></label>
+                <input type="datetime-local" asp-for="DateOfCreation" class="form-control" readonly />
+            </div>
+            <a asp-action="Delete" class="btn btn-danger mt-2">Confirm Deleting</a>
+            <a asp-action="Index" class="btn btn-secondary mt-2 ms-2">Back to list</a>
+        </div>
+    </div>
+</div>
+
+
