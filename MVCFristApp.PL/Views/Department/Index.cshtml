@@ -1,7 +1,5 @@
-﻿@using MVCFristApp.DAL.Models
-@{
+﻿@{
     ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @model IEnumerable<Department>
 <section>
@@ -32,9 +30,9 @@
                                 <th>@departmrnt.Code</th>
                                 <th>@departmrnt.Name</th>
                                 <th>@departmrnt.DateOfCreation</th>
-                                <th><a asp-controller="Department" asp-action="GetById" asp-route-Id="@departmrnt.Code" class="btn btn-success"> Details</a></th>
-                                <th><a asp-controller="Department" asp-action="Update" asp-route-Id="@departmrnt.Code"  class="btn btn-warning"> Details</a></th>
-                                <th><a asp-controller="Department" asp-action="Delete" asp-route-Id="@departmrnt.Code"  class="btn btn-danger"> Details</a></th>
+                                <th><a asp-controller="Department" asp-action="Details" asp-route-Id="@departmrnt.Id" class="btn btn-success text-white"> <i class="fa-solid fa-eye"></i> Details</a></th>
+                                <th><a asp-controller="Department" asp-action="Update" asp-route-Id="@departmrnt.Id" class="btn btn-warning text-white"> <i class="fa-solid fa-pen-to-square"></i> Update</a></th>
+                                <th><a asp-controller="Department" asp-action="Delete" asp-route-Id="@departmrnt.Id" class="btn btn-danger text-white"> <i class="fa-solid fa-trash"></i> Delete</a></th>
                             </tr>
                         }
                     </tbody>

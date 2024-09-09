@@ -11,9 +11,9 @@ namespace MVCFristApp.DAL.Models
     public class Department
     {
         public int Id { get; set; }
-        //[Required(ErrorMessage ="Code Is Reqired!.")] //-->Put it in View Model
+        [Required(ErrorMessage = "Code Is Reqired!.")] //-->Put it in View Model
         public string Code { get; set; } //Allow null we use .net (5) not suppot nullable Reference type
-        //[Required(ErrorMessage ="Name Is Required!.")] //-->Put it in View Model
+        [Required(ErrorMessage = "Name Is Required!.")] //-->Put it in View Model
         public string Name { get; set; }
 
         [Display(Name="Date Of Creation")]
