@@ -21,7 +21,7 @@
                     <label asp-for="DateOfCreation" class="col-form-label"></label>
                     <input type="datetime-local" asp-for="DateOfCreation" class="form-control" readonly/>
                 </div>
-                <a asp-action="Update" class="btn btn-warning mt-2">Update</a>
+                <a asp-action="Update" asp-route-id="@Model.Id" class="btn btn-warning mt-2">Update</a>
                 <a asp-action="Index" class="btn btn-secondary mt-2 ms-2">Back to list</a>
         </div>
     </div>
