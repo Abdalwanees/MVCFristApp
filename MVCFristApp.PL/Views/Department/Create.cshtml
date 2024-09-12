@@ -6,7 +6,7 @@
 <div class="min-vh-100 d-flex align-items-center flex-column justify-content-center">
     <div class="w-75 shadow shadow-sm rounded rounded-5 bg-white p-3">
         <div class="header mb-3">
-            <h1>Create New Project</h1>
+            <h1>Create New Department</h1>
         </div>
         <div class="body">
             <form asp-action="Create" method="post">
@@ -29,6 +29,11 @@
                 <input type="submit" value="Create" class="btn btn-primary mt-2" />
                 <a asp-action="Index" class="btn btn-secondary my-2 ms-2">Back to list</a>
             </form>
+            @section ValidateSection {
+                <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+                <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+            }
         </div>
     </div>
 </div>
+
