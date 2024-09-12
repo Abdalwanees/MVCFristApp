@@ -2,10 +2,6 @@
 @{
     ViewData["Title"] = "Delete";
 }
-
-@{
-    ViewData["Title"] = "Details";
-}
 @model Department
 
 <div class="min-vh-100 d-flex align-items-center flex-column justify-content-center">
@@ -26,8 +22,12 @@
                 <label asp-for="DateOfCreation" class="col-form-label"></label>
                 <input type="datetime-local" asp-for="DateOfCreation" class="form-control" readonly />
             </div>
-            <a asp-action="Delete" class="btn btn-danger mt-2">Confirm Deleting</a>
-            <a asp-action="Index" class="btn btn-secondary mt-2 ms-2">Back to list</a>
+            <form asp-action="Delete" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="Id" />
+                <button type="submit" class="btn btn-danger mt-2">Confirm Deleting</button>
+                <a asp-action="Index" class="btn btn-secondary mt-2 ms-2">Back to list</a>
+            </form>
         </div>
     </div>
 </div>

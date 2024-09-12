@@ -39,9 +39,6 @@ namespace MVCFristApp.PL
             services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             //services.AddScoped<IGenericrepository, GenericRepository>();
-
-            
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

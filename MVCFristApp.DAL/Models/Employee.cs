@@ -1,11 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MVCFristApp.DAL.Models
 {
@@ -16,6 +11,7 @@ namespace MVCFristApp.DAL.Models
         [EnumMember(Value = "Female")]
         Female = 2
     }
+
     public enum EmployeeType
     {
         [EnumMember(Value = "FullTime")]
@@ -23,29 +19,40 @@ namespace MVCFristApp.DAL.Models
         [EnumMember(Value = "PartTime")]
         PartTime = 2
     }
-    public class Employee:ModelBase
+
+    public class Employee : ModelBase
     {
         //public int Id { get; set; }
+
         [Required(ErrorMessage = "Name is required")]
-        [MaxLength(50, ErrorMessage = "Max Length For Name is 50")]
-        [MinLength(4, ErrorMessage = "MIn Length For Name is 4")]
+        [MaxLength(50, ErrorMessage = "Max Length For Name is 50 characters")]
+        [MinLength(4, ErrorMessage = "Min Length For Name is 4 characters")]
         public string Name { get; set; }
+
         public int? Age { get; set; }
-        [RegularExpression(@"^[0-9]{1,3}-[a-zA-Z]-{5-10}-[a-zA-Z]-{4-10}-[a-zA-Z]-{5-10}$"
-                           , ErrorMessage = "Address Must be Like 123-Street-City-Country"
-        )]
+
+        // Adjusted the regular expression for address validation
+        [RegularExpression(@"^[0-9]{1,5}\s[A-Za-z]+\s[A-Za-z]+(?:\s[A-Za-z]+)*$",
+                           ErrorMessage = "Address must be in a valid format like '123 Street Name City'")]
         public string Address { get; set; }
+
         [DataType(DataType.Currency)]
         public decimal Salary { get; set; }
+
         public bool IsActive { get; set; }
-        [EmailAddress]
+
+        [EmailAddress(ErrorMessage = "Invalid email address format")]
         public string Email { get; set; }
-        [Phone]
+
+        [Phone(ErrorMessage = "Invalid phone number format")]
         [Display(Name = "Phone Number")]
         public string Phone { get; set; }
+
         [Display(Name = "Hire Date")]
         public DateTime HireDate { get; set; }
-        public bool IsDeleted { get; set; }// soft delete
+
+        public bool IsDeleted { get; set; } // soft delete
+
         public Gender Gender { get; set; }
     }
 }
