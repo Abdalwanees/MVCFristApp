@@ -30,9 +30,8 @@
                                     <td>@employee.Name</td>
                                     <td>@employee.Age</td>
                                     <td>@employee.Gender</td>
-                                    <td><a asp-controller="Employee" asp-action="Details" asp-route-Id="@employee.Id" class="btn btn-success text-white"> <i class="fa-solid fa-eye"></i> Details</a></td>
-                                    <td><a asp-controller="Employee" asp-action="Update" asp-route-Id="@employee.Id" class="btn btn-warning text-white"> <i class="fa-solid fa-pen-to-square"></i> Update</a></td>
-                                    <td><a asp-controller="Employee" asp-action="Delete" asp-route-Id="@employee.Id" class="btn btn-danger text-white"> <i class="fa-solid fa-trash"></i> Delete</a></td>
+                                    <partial name="_buttonsPartial" model="@employee.Id"></partial>
+
                                 </tr>
                             }
                         </tbody>

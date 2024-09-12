@@ -14,89 +14,15 @@
         <div class="body">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                <!-- Name -->
-                <div class="mb-3">
-                    <label asp-for="Name" class="col-form-label"></label>
-                    <input type="text" asp-for="Name" class="form-control" />
-                    <span asp-validation-for="Name" class="text-danger"></span>
-                </div>
+                <partial name="PartialViews/CreateEditPartial"></partial>
 
-                <!-- Age -->
-                <div class="mb-3">
-                    <label asp-for="Age" class="col-form-label"></label>
-                    <input type="number" asp-for="Age" class="form-control" />
-                    <span asp-validation-for="Age" class="text-danger"></span>
-                </div>
-
-                <!-- Salary -->
-                <div class="mb-3">
-                    <label asp-for="Salary" class="col-form-label"></label>
-                    <input type="number" asp-for="Salary" class="form-control" />
-                    <span asp-validation-for="Salary" class="text-danger"></span>
-                </div>
-
-                <!-- Address -->
-                <div class="mb-3">
-                    <label asp-for="Address" class="col-form-label"></label>
-                    <input type="text" asp-for="Address" class="form-control" />
-                    <span asp-validation-for="Address" class="text-danger"></span>
-                </div>
-
-                <!-- Is Active -->
-                <div class="mb-3">
-                    <div class="form-check">
-                        <input asp-for="IsActive" class="form-check-input" type="checkbox" />
-                        <label asp-for="IsActive" class="form-check-label"></label>
-                    </div>
-                </div>
-
-                <!-- Email -->
-                <div class="mb-3">
-                    <label asp-for="Email" class="col-form-label"></label>
-                    <input type="email" asp-for="Email" class="form-control" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                </div>
-
-                <!-- Phone -->
-                <div class="mb-3">
-                    <label asp-for="Phone" class="col-form-label"></label>
-                    <input type="tel" asp-for="Phone" class="form-control" />
-                    <span asp-validation-for="Phone" class="text-danger"></span>
-                </div>
-
-                <!-- Hire Date -->
-                <div class="mb-3">
-                    <label asp-for="HireDate" class="col-form-label"></label>
-                    <input type="datetime-local" asp-for="HireDate" class="form-control" />
-                    <span asp-validation-for="HireDate" class="text-danger"></span>
-                </div>
-
-                <!-- Is Deleted (Soft Delete) -->
-                <div class="mb-3">
-                    <div class="form-check">
-                        <input asp-for="IsDeleted" class="form-check-input" type="checkbox" />
-                        <label asp-for="IsDeleted" class="form-check-label"></label>
-                    </div>
-                </div>
-
-                <!-- Gender -->
-                <div class="mb-3">
-                    <label asp-for="Gender" class="col-form-label"></label>
-                    <select asp-for="Gender" class="form-select">
-                        <option value="">Select Gender</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                    </select>
-                    <span asp-validation-for="Gender" class="text-danger"></span>
-                </div>
 
                 <input type="submit" value="Update" class="btn btn-primary mt-2" />
                 <a asp-action="Index" class="btn btn-secondary mt-2 ms-2">Cancel</a>
 
           </form>
         @section ValidateSection {
-            <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-            <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+            <partial name="_ValidationScriptsPartial"></partial>
         }
         </div>
     </div>

@@ -12,27 +12,12 @@
         <div class="body">
             <form asp-action="Update" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div>
-                    <label asp-for="Code" class="col-form-label"></label>
-                    <input type="text" asp-for="Code" class="form-control" />
-                    <span asp-validation-for="Code" class="text-danger"></span>
-                </div>
-                <div>
-                    <label asp-for="Name" class="col-form-label"></label>
-                    <input type="text" asp-for="Name" class="form-control" />
-                    <span asp-validation-for="Name" class="text-danger"></span>
-                </div>
-                <div>
-                    <label asp-for="DateOfCreation" class="col-form-label"></label>
-                    <input type="datetime-local" asp-for="DateOfCreation" class="form-control" />
-                    <span asp-validation-for="DateOfCreation" class="text-danger"></span>
-                </div>
+                <partial name="PartialViews/CreateEditPartial"></partial>
                 <input type="submit" value="Update" class="btn btn-primary mt-2" />
                 <a asp-action="Index" class="btn btn-secondary my-2 ms-2">Cancel</a>
             </form>
             @section ValidateSection {
-                <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-                <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+                <partial name="_ValidationScriptsPartial"></partial>
             }
         </div>
     </div>

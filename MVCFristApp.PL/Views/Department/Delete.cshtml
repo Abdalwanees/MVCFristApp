@@ -10,18 +10,8 @@
             <h1 class="alert alert-warning ">Are you sure you want to delete this Project.</h1>
         </div>
         <div class="body">
-            <div>
-                <label asp-for="Code" class="col-form-label"></label>
-                <input type="text" asp-for="Code" class="form-control" readonly />
-            </div>
-            <div>
-                <label asp-for="Name" class="col-form-label"></label>
-                <input type="text" asp-for="Name" class="form-control" readonly />
-            </div>
-            <div>
-                <label asp-for="DateOfCreation" class="col-form-label"></label>
-                <input type="datetime-local" asp-for="DateOfCreation" class="form-control" readonly />
-            </div>
+            <partial name="PartialViews/DetailsDeletePartial"></partial>
+
             <form asp-action="Delete" method="post">
                 @Html.AntiForgeryToken()
                 <input type="hidden" asp-for="Id" />

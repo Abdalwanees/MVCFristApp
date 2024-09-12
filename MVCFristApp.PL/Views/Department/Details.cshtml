@@ -9,20 +9,10 @@
             <h1>Project details</h1>
         </div>
         <div class="body">
-                <div>
-                    <label asp-for="Code" class="col-form-label"></label>
-                    <input type="text" asp-for="Code" class="form-control" readonly />
-                </div>
-                <div>
-                    <label asp-for="Name" class="col-form-label"></label>
-                    <input type="text" asp-for="Name" class="form-control" readonly />
-                </div>
-                <div>
-                    <label asp-for="DateOfCreation" class="col-form-label"></label>
-                    <input type="datetime-local" asp-for="DateOfCreation" class="form-control" readonly/>
-                </div>
-                <a asp-action="Update" asp-route-id="@Model.Id" class="btn btn-warning mt-2">Update</a>
-                <a asp-action="Index" class="btn btn-secondary mt-2 ms-2">Back to list</a>
+            <partial name="PartialViews/DetailsDeletePartial"></partial>
+
+            <a asp-action="Update" asp-route-id="@Model.Id" class="btn btn-warning mt-2">Update</a>
+            <a asp-action="Index" class="btn btn-secondary mt-2 ms-2">Back to list</a>
         </div>
     </div>
 </div>
