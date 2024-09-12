@@ -37,9 +37,8 @@ namespace MVCFristApp.PL
              ServiceLifetime.Scoped  // This sets the lifetime for the options being used by the DbContext
              );
             services.AddScoped<IDepartmentRepository, DepartmentRepository>();
-
-            
-
+            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            //services.AddScoped<IGenericrepository, GenericRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

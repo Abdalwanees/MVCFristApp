@@ -1,17 +1,19 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Delete";
 }
-@model Department
+
+@model Employee
 
 <div class="min-vh-100 d-flex align-items-center flex-column justify-content-center">
     <div class="w-75 shadow shadow-sm rounded rounded-5 bg-white p-3">
         <div class="header mb-3">
-            <h1 class="alert alert-warning ">Are you sure you want to delete this Project.</h1>
+            <h1 class="alert alert-warning">Are you sure you want to delete this Employee?</h1>
         </div>
         <div class="body">
             <partial name="PartialViews/DetailsDeletePartial"></partial>
 
+
+            <!-- Form for deletion -->
             <form asp-action="Delete" method="post">
                 @Html.AntiForgeryToken()
                 <input type="hidden" asp-for="Id" />
@@ -21,5 +23,3 @@
         </div>
     </div>
 </div>
-
-

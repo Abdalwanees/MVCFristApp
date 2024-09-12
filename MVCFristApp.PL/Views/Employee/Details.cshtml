@@ -1,16 +1,16 @@
 ﻿@{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Employee Details";
 }
-@model Department
+
+@model Employee
 
 <div class="min-vh-100 d-flex align-items-center flex-column justify-content-center">
     <div class="w-75 shadow shadow-sm rounded rounded-5 bg-white p-3">
         <div class="header mb-3">
-            <h1>Project details</h1>
+            <h1>Employee Details</h1>
         </div>
         <div class="body">
             <partial name="PartialViews/DetailsDeletePartial"></partial>
-
             <a asp-action="Update" asp-route-id="@Model.Id" class="btn btn-warning mt-2">Update</a>
             <a asp-action="Index" class="btn btn-secondary mt-2 ms-2">Back to list</a>
         </div>

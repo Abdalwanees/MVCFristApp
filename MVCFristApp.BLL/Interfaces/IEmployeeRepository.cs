@@ -7,12 +7,8 @@ using System.Threading.Tasks;
 
 namespace MVCFristApp.BLL.Interfaces
 {
-    public interface IEmployeeRepository
+    public interface IEmployeeRepository:IGenericrepository<Employee>
     {
-        IEnumerable<Employee> GetAll();
-        Employee GetById(int id);
-        int Add(Employee Employee);
-        int Update(Employee Employee);
-        int Delete(Employee Employee);
+        IQueryable<Employee> GetByAddress(string address);//Filtration   
     }
 }
