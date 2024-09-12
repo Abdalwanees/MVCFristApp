@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -22,9 +23,9 @@ namespace MVCFristApp.DAL.Models
         [EnumMember(Value = "PartTime")]
         PartTime = 2
     }
-    public class Employee
+    public class Employee:ModelBase
     {
-        public int Id { get; set; }
+        //public int Id { get; set; }
         [Required(ErrorMessage = "Name is required")]
         [MaxLength(50, ErrorMessage = "Max Length For Name is 50")]
         [MinLength(4, ErrorMessage = "MIn Length For Name is 4")]
