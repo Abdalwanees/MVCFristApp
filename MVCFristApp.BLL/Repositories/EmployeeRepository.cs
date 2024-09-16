@@ -15,9 +15,9 @@ namespace MVCFristApp.BLL.Repositories
         //private readonly AppDbContext _dbContext;
         public EmployeeRepository(AppDbContext dbContext):base(dbContext){ }
 
-        public IQueryable<Employee> GetByAddress(string address)
+        public IQueryable<Employee> GetByName(string name)
         {
-            return _dbContext.Employees.Where(E=>E.Address.ToLower().Contains(address.ToLower()));
+            return _dbContext.Employees.Where(E=>E.Name.ToLower().Contains(name.ToLower()));
         }
     }
 }

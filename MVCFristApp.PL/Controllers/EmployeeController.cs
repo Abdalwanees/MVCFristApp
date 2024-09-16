@@ -5,6 +5,7 @@ using MVCFristApp.BLL.Interfaces;
 using MVCFristApp.BLL.Repositories;
 using MVCFristApp.DAL.Models;
 using System;
+using System.Collections.Generic;
 
 namespace MVCFristApp.PL.Controllers
 {
@@ -20,10 +21,21 @@ namespace MVCFristApp.PL.Controllers
             _environment = environment;
         }
         //Get All
-        [HttpGet]
-        public IActionResult Index()
+        //[HttpGet]
+        public IActionResult Index(string searchInpt)
         {
-            var employees = _employeeRepository.GetAll();
+            IEnumerable<Employee> employees;
+
+            if (string.IsNullOrWhiteSpace(searchInpt))
+            {
+                employees = _employeeRepository.GetAll();
+            }
+            else
+            {
+                employees = _employeeRepository.GetByName(searchInpt.ToLower());
+                ViewBag.SearchTerm = searchInpt;
+            }
+
             return View(employees);
         }
 
