@@ -18,5 +18,7 @@ namespace MVCFristApp.DAL.Models
 
         [Display(Name="Date Of Creation")]
         public DateTime DateOfCreation { get; set; }
+        //Navigation property
+        public ICollection<Employee> Employees { get; set; }
     }
 }

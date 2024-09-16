@@ -54,5 +54,10 @@ namespace MVCFristApp.DAL.Models
         public bool IsDeleted { get; set; } // soft delete
 
         public Gender Gender { get; set; }
+
+        public int? workForId { get; set; }
+        //navigation property
+        [Display(Name = "Department Name")]
+        public Department workfor { get; set; }
     }
 }

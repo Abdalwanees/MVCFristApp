@@ -20,7 +20,13 @@
     <label asp-for="Address" class="col-form-label"></label>
     <input type="text" asp-for="Address" class="form-control" readonly />
 </div>
-
+<!-- Department -->
+<div class="mb-3">
+    <label asp-for="workfor" class="col-form-label"></label>
+    <select asp-for="workForId" class="form-control" disabled>
+        <option value="workForId" selected> @Model.workfor.Name</option>
+    </select>
+</div>
 <!-- Salary -->
 <div>
     <label asp-for="Salary" class="col-form-label"></label>

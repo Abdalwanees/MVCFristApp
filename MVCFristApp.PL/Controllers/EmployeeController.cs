@@ -5,23 +5,37 @@ using MVCFristApp.BLL.Interfaces;
 using MVCFristApp.BLL.Repositories;
 using MVCFristApp.DAL.Models;
 using System;
+using System.Collections.Generic;
 
 namespace MVCFristApp.PL.Controllers
 {
     public class EmployeeController : Controller
     {
         private readonly IEmployeeRepository _employeeRepository;
+        private readonly IDepartmentRepository _departmentRepository;
         private readonly IWebHostEnvironment _environment;
-        public EmployeeController(IEmployeeRepository repository, IWebHostEnvironment environment)
+        public EmployeeController(IEmployeeRepository repository,IDepartmentRepository departmentRepository ,IWebHostEnvironment environment)
         {
             _employeeRepository = repository;
+            _departmentRepository = departmentRepository;
             _environment = environment;
         }
         //Get All
-        [HttpGet]
-        public IActionResult Index()
+        //[HttpGet]
+        public IActionResult Index(string searchInpt)
         {
-            var employees = _employeeRepository.GetAll();
+            IEnumerable<Employee> employees;
+
+            if (string.IsNullOrWhiteSpace(searchInpt))
+            {
+                employees = _employeeRepository.GetAll();
+            }
+            else
+            {
+                employees = _employeeRepository.GetByName(searchInpt.ToLower());
+                ViewBag.SearchTerm = searchInpt;
+            }
+
             return View(employees);
         }
 
@@ -45,6 +59,8 @@ namespace MVCFristApp.PL.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+            var departmentNames= _departmentRepository.GetAll();
+            ViewData["Departments"]=departmentNames;
             return View();
         }
         [HttpPost]
@@ -65,6 +81,8 @@ namespace MVCFristApp.PL.Controllers
         [HttpGet]
         public IActionResult Update(int? id)
         {
+            var departmentNames = _departmentRepository.GetAll();
+            ViewData["Departments"] = departmentNames;
             return Details(id, "Update");
         }
         [HttpPost]

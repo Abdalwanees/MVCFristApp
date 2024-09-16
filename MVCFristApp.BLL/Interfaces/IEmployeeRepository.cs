@@ -9,6 +9,6 @@ namespace MVCFristApp.BLL.Interfaces
 {
     public interface IEmployeeRepository:IGenericrepository<Employee>
     {
-        IQueryable<Employee> GetByAddress(string address);//Filtration   
+        IQueryable<Employee> GetByName(string name);//Filtration   
     }
 }
