@@ -11,10 +11,12 @@ namespace MVCFristApp.PL.Controllers
     public class EmployeeController : Controller
     {
         private readonly IEmployeeRepository _employeeRepository;
+        private readonly IDepartmentRepository _departmentRepository;
         private readonly IWebHostEnvironment _environment;
-        public EmployeeController(IEmployeeRepository repository, IWebHostEnvironment environment)
+        public EmployeeController(IEmployeeRepository repository,IDepartmentRepository departmentRepository ,IWebHostEnvironment environment)
         {
             _employeeRepository = repository;
+            _departmentRepository = departmentRepository;
             _environment = environment;
         }
         //Get All
@@ -45,6 +47,8 @@ namespace MVCFristApp.PL.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+            var departmentNames= _departmentRepository.GetAll();
+            ViewData["Departments"]=departmentNames;
             return View();
         }
         [HttpPost]
@@ -65,6 +69,8 @@ namespace MVCFristApp.PL.Controllers
         [HttpGet]
         public IActionResult Update(int? id)
         {
+            var departmentNames = _departmentRepository.GetAll();
+            ViewData["Departments"] = departmentNames;
             return Details(id, "Update");
         }
         [HttpPost]

@@ -32,12 +32,27 @@ namespace MVCFristApp.BLL.Repositories
 
         public IEnumerable<T> GetAll()
         {
-            return _dbContext.Set<T>().AsNoTracking().ToList();
+            if (typeof(T) == typeof(Employee))
+            {
+                return (IEnumerable<T>) _dbContext.Employees.Include(D=>D.workfor).AsNoTracking().ToList(); 
+
+            }
+            else
+            {
+                return _dbContext.Set<T>().AsNoTracking().ToList();
+            }
         }
 
         public T GetById(int id)
         {
-            return _dbContext.Set<T>().Find(id);
+            if (typeof(T) == typeof(Employee))
+            {
+                return (T)(object)_dbContext.Employees.Include(D => D.workfor).FirstOrDefault(e => e.Id == id);
+            }
+            else
+            {
+                return _dbContext.Set<T>().Find(id);
+            }
         }
 
         public int Update(T entity)
