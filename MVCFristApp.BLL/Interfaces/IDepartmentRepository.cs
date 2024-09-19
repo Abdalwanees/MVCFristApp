@@ -14,7 +14,5 @@ namespace MVCFristApp.BLL.Interfaces
         //int Add(Department department);
         //int Update(Department department);
         //int Delete(Department department);
-
-        
     }
 }
