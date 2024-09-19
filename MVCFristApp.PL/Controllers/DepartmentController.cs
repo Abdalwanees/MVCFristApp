@@ -1,10 +1,14 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using MVCFristApp.BLL.Interfaces;
 using MVCFristApp.BLL.Repositories;
 using MVCFristApp.DAL.Models;
+using MVCFristApp.PL.ViewModels;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace MVCFristApp.PL.Controllers
 {
@@ -13,16 +17,20 @@ namespace MVCFristApp.PL.Controllers
 
         private readonly IDepartmentRepository _departmentRepository;
         private readonly IWebHostEnvironment _enviroment;
-        public DepartmentController(IDepartmentRepository repository,IWebHostEnvironment enviroment)
+        private readonly IMapper _imapper;
+
+        public DepartmentController(IDepartmentRepository repository,IWebHostEnvironment enviroment,IMapper imapper)
         {
             _departmentRepository = repository;
             _enviroment = enviroment;
+            _imapper = imapper;
         }
         public IActionResult Index()
         {
             //GetAll()
-            var Department = _departmentRepository.GetAll();
-            return View(Department);//View with same Action
+            var department = _departmentRepository.GetAll();
+            var mappedDepartment = _imapper.Map<IEnumerable<Department>,IEnumerable<DepartmentViewModel>>(department);
+            return View(mappedDepartment);//View with same Action
         }
         //Create New Department
         [HttpGet]
@@ -32,17 +40,18 @@ namespace MVCFristApp.PL.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Create(Department departmrnt)
+        public IActionResult Create(DepartmentViewModel departmentVM)
         {
             if (ModelState.IsValid)
             {
-                var Count = _departmentRepository.Add(departmrnt);
+                var mappedDepartment=_imapper.Map<DepartmentViewModel,Department>(departmentVM);
+                var Count = _departmentRepository.Add(mappedDepartment);
                 if (Count > 0)
                 {
                     return RedirectToAction("Index");
                 }
             }
-            return View(departmrnt);
+            return View(departmentVM);
         }
         // Details
         [HttpGet]
@@ -53,13 +62,14 @@ namespace MVCFristApp.PL.Controllers
                 return BadRequest();
             }
             var department=_departmentRepository.GetById(Id.Value);
-            if (department == null)
+            var mappedDepartment = _imapper.Map<Department, DepartmentViewModel>(department);
+            if (mappedDepartment == null)
             {
                 return NotFound();
             }
             else
             {
-                return View(Viewname,department);
+                return View(Viewname, mappedDepartment);
             }
         }
         //Update
@@ -70,19 +80,21 @@ namespace MVCFristApp.PL.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Update([FromRoute]int Id,Department department)
+        public IActionResult Update([FromRoute]int Id,DepartmentViewModel departmentVM)
         {
-            if (Id != department.Id)
+            if (Id != departmentVM.Id)
             {
                 return BadRequest();
             }
             if (!ModelState.IsValid)
             {
-                return View(department);
+                return View(departmentVM);
             }
             else
             {
-                _departmentRepository.Update(department);
+                var mappedDepartment = _imapper.Map<DepartmentViewModel, Department>(departmentVM);
+
+                _departmentRepository.Update(mappedDepartment);
                 return RedirectToAction("Index");
             }
         }
@@ -95,11 +107,12 @@ namespace MVCFristApp.PL.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete([FromRoute]int Id,Department department)
+        public IActionResult Delete([FromRoute]int Id,DepartmentViewModel departmentVM)
         {
             try
             {
-                _departmentRepository.Delete(department);
+                var mappedDepartment = _imapper.Map<DepartmentViewModel, Department>(departmentVM);
+                _departmentRepository.Delete(mappedDepartment);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
@@ -109,7 +122,7 @@ namespace MVCFristApp.PL.Controllers
                 else
                     ModelState.AddModelError(string.Empty, "An Error Occurred During Delete Department");
 
-                return View(department);
+                return View(departmentVM);
             }
         }
 

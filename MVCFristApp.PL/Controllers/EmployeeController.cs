@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using MVCFristApp.BLL.Interfaces;
 using MVCFristApp.BLL.Repositories;
 using MVCFristApp.DAL.Models;
+using MVCFristApp.PL.ViewModels;
 using System;
 using System.Collections.Generic;
 
@@ -14,11 +16,14 @@ namespace MVCFristApp.PL.Controllers
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IDepartmentRepository _departmentRepository;
         private readonly IWebHostEnvironment _environment;
-        public EmployeeController(IEmployeeRepository repository,IDepartmentRepository departmentRepository ,IWebHostEnvironment environment)
+        private readonly IMapper _iMapper;
+
+        public EmployeeController(IEmployeeRepository repository,IDepartmentRepository departmentRepository ,IWebHostEnvironment environment,IMapper iMapper)
         {
             _employeeRepository = repository;
             _departmentRepository = departmentRepository;
             _environment = environment;
+            _iMapper = iMapper;
         }
         //Get All
         //[HttpGet]
@@ -35,8 +40,8 @@ namespace MVCFristApp.PL.Controllers
                 employees = _employeeRepository.GetByName(searchInpt.ToLower());
                 ViewBag.SearchTerm = searchInpt;
             }
-
-            return View(employees);
+            var MappedEmployees=_iMapper.Map<IEnumerable<Employee>,IEnumerable<EmployeeViewModel>>(employees);
+            return View(MappedEmployees);
         }
 
         //Details
@@ -47,12 +52,13 @@ namespace MVCFristApp.PL.Controllers
             {
                 return BadRequest();
             }
-            var deptDetails = _employeeRepository.GetById(Id.Value);
-            if (deptDetails == null)
+            var empDetails = _employeeRepository.GetById(Id.Value);
+            var mappedEmployee = _iMapper.Map<Employee, EmployeeViewModel>(empDetails);
+            if (mappedEmployee == null)
             {
                 return NotFound();
             }
-            return View(ViewName, deptDetails);
+            return View(ViewName, mappedEmployee);
         }
 
         // Add new employee
@@ -64,16 +70,31 @@ namespace MVCFristApp.PL.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Create(Employee employee) {
+        public IActionResult Create(EmployeeViewModel employeeVM) {
             if (ModelState.IsValid) {
+                // Manual Mapping
+                var mappedEmployee = new Employee()
+                {
+                    Id = employeeVM.Id,
+                    Name = employeeVM.Name,
+                    Salary = employeeVM.Salary,
+                    Age = employeeVM.Age,
+                    IsDeleted = employeeVM.IsDeleted,
+                    IsActive = employeeVM.IsActive,
+                    HireDate = employeeVM.HireDate,
+                    Email = employeeVM.Email,
+                    Phone = employeeVM.Phone,
+                    workForId = employeeVM.workForId,
+                    Gender = (DAL.Models.Gender)employeeVM.Gender,
+                };
 
-                var count = _employeeRepository.Add(employee);
+                var count = _employeeRepository.Add(mappedEmployee);
                 if (count > 0)
                 {
                     return RedirectToAction("Index");
                 }
             }
-            return View(employee);
+            return View(employeeVM);
 
         }
 
@@ -82,12 +103,13 @@ namespace MVCFristApp.PL.Controllers
         public IActionResult Update(int? id)
         {
             var departmentNames = _departmentRepository.GetAll();
+            var mappedDepartment= _iMapper.Map<IEnumerable<Department>,IEnumerable<DepartmentViewModel>>(departmentNames);
             ViewData["Departments"] = departmentNames;
             return Details(id, "Update");
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Update([FromRoute] int Id, Employee employee)
+        public IActionResult Update([FromRoute] int Id, EmployeeViewModel employeeVm)
         {
             if (!ModelState.IsValid)
             {
@@ -95,7 +117,8 @@ namespace MVCFristApp.PL.Controllers
             }
             else
             {
-                _employeeRepository.Update(employee);
+                var MappedEmployee = _iMapper.Map<EmployeeViewModel, Employee>(employeeVm);
+                _employeeRepository.Update(MappedEmployee);
                 return RedirectToAction("Index");
             }
         }
@@ -107,10 +130,11 @@ namespace MVCFristApp.PL.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete([FromRoute]int Id,Employee employee) {
+        public IActionResult Delete([FromRoute]int Id,EmployeeViewModel employeevm) {
             try
             {
-                _employeeRepository.Delete(employee);
+                var mappedEmployee = _iMapper.Map<EmployeeViewModel,Employee>(employeevm);  
+                _employeeRepository.Delete(mappedEmployee);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
@@ -120,7 +144,7 @@ namespace MVCFristApp.PL.Controllers
                 else
                     ModelState.AddModelError(string.Empty, "An Error Occurred During Delete Employee");
 
-                return View(employee);
+                return View(employeevm);
             }
         }
     }

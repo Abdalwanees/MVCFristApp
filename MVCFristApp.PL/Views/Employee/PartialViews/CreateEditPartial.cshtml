@@ -5,7 +5,7 @@
     var departments =new SelectList(ViewData["Departments"] as IEnumerable<Department>,"Id","Name");
     
 }
-@model Employee
+@model EmployeeViewModel
 <!-- Name -->
 <div class="mb-3">
     <label asp-for="Name" class="col-form-label"></label>
