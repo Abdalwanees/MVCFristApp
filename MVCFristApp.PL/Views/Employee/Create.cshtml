@@ -10,7 +10,7 @@
             <h1>Add New Employee</h1>
         </div>
         <div class="body">
-            <form asp-action="Create" method="post">
+            <form asp-action="Create" method="post" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                 <partial name="PartialViews/CreateEditPartial"></partial>

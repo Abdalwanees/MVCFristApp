@@ -2,10 +2,10 @@
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-    var departments =new SelectList(ViewData["Departments"] as IEnumerable<Department>,"Id","Name");
-    
+    var departments = new SelectList(ViewData["Departments"] as IEnumerable<Department>, "Id", "Name");
 }
 @model EmployeeViewModel
+
 <!-- Name -->
 <div class="mb-3">
     <label asp-for="Name" class="col-form-label"></label>
@@ -34,12 +34,13 @@
     <span asp-validation-for="Address" class="text-danger"></span>
 </div>
 
-<!--  Department name  -->
+<!-- Department -->
 <div class="mb-3">
-    <label asp-for="workfor" class="col-form-label"></label>
+    <label asp-for="workForId" class="col-form-label"></label>
     <select asp-for="workForId" asp-items="departments" class="form-control">
-        <option value="@null" selected>-- Select Department ---</option>
+        <option value="">-- Select Department ---</option>
     </select>
+    <span asp-validation-for="workForId" class="text-danger"></span>
 </div>
 
 <!-- Is Active -->
@@ -88,4 +89,11 @@
         <option value="Female">Female</option>
     </select>
     <span asp-validation-for="Gender" class="text-danger"></span>
+</div>
+
+<!-- Image -->
+<div class="mb-3">
+    <label asp-for="Image" class="col-form-label"></label>
+    <input asp-for="Image" type="file" class="form-control-file" />
+    <span asp-validation-for="Image" class="text-danger"></span>
 </div>
