@@ -14,21 +14,23 @@ namespace MVCFristApp.PL.Controllers
 {
     public class DepartmentController : Controller
     {
+        private readonly IUnitOfWork _unitOfWork;
 
-        private readonly IDepartmentRepository _departmentRepository;
+        //private readonly IDepartmentRepository _departmentRepository;
         private readonly IWebHostEnvironment _enviroment;
         private readonly IMapper _imapper;
 
-        public DepartmentController(IDepartmentRepository repository,IWebHostEnvironment enviroment,IMapper imapper)
+        public DepartmentController(/*IDepartmentRepository repository*/IUnitOfWork unitOfWork,IWebHostEnvironment enviroment,IMapper imapper)
         {
-            _departmentRepository = repository;
+            _unitOfWork = unitOfWork;
+            //_departmentRepository = repository;
             _enviroment = enviroment;
             _imapper = imapper;
         }
         public IActionResult Index()
         {
             //GetAll()
-            var department = _departmentRepository.GetAll();
+            var department = _unitOfWork.DepartmentRepository.GetAll();
             var mappedDepartment = _imapper.Map<IEnumerable<Department>,IEnumerable<DepartmentViewModel>>(department);
             return View(mappedDepartment);//View with same Action
         }
@@ -45,7 +47,8 @@ namespace MVCFristApp.PL.Controllers
             if (ModelState.IsValid)
             {
                 var mappedDepartment=_imapper.Map<DepartmentViewModel,Department>(departmentVM);
-                var Count = _departmentRepository.Add(mappedDepartment);
+                _unitOfWork.DepartmentRepository.Add(mappedDepartment);
+                var Count = _unitOfWork.Compelete();
                 if (Count > 0)
                 {
                     return RedirectToAction("Index");
@@ -61,7 +64,7 @@ namespace MVCFristApp.PL.Controllers
             {
                 return BadRequest();
             }
-            var department=_departmentRepository.GetById(Id.Value);
+            var department=_unitOfWork.DepartmentRepository.GetById(Id.Value);
             var mappedDepartment = _imapper.Map<Department, DepartmentViewModel>(department);
             if (mappedDepartment == null)
             {
@@ -94,7 +97,8 @@ namespace MVCFristApp.PL.Controllers
             {
                 var mappedDepartment = _imapper.Map<DepartmentViewModel, Department>(departmentVM);
 
-                _departmentRepository.Update(mappedDepartment);
+                _unitOfWork.DepartmentRepository.Update(mappedDepartment);
+                _unitOfWork.Compelete();
                 return RedirectToAction("Index");
             }
         }
@@ -112,7 +116,8 @@ namespace MVCFristApp.PL.Controllers
             try
             {
                 var mappedDepartment = _imapper.Map<DepartmentViewModel, Department>(departmentVM);
-                _departmentRepository.Delete(mappedDepartment);
+                _unitOfWork.DepartmentRepository.Delete(mappedDepartment);
+                _unitOfWork.Compelete();
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)

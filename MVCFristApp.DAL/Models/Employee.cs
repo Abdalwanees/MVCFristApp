@@ -39,6 +39,7 @@ namespace MVCFristApp.DAL.Models
         public bool IsDeleted { get; set; } // soft delete
 
         public Gender Gender { get; set; }
+        public string ImageUrl { get; set; }
 
         public int? workForId { get; set; }
         //navigation property

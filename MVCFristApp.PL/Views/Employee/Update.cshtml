@@ -9,9 +9,27 @@
         <div class="header mb-3">
             <h1>Update Employee Info</h1>
         </div>
-        <form asp-action="Update" method="post">
+        <form asp-action="Update" method="post" enctype="multipart/form-data">
             <div class="body">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <!-- Image -->
+                <div class="d-flex align-items-center justify-content-center w-100">
+                    <div class="image w-25">
+                        @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                        {
+                            <!-- Display the image if ImageUrl is available -->
+                            <img src="~/Files/Images/@Model.ImageUrl" alt="@Model.Name Image" class="w-100 rounded rounded-circle img-fluid" />
+                        }
+                        else
+                        {
+                            <!-- Display Facebook-like head and body avatar if ImageUrl is null -->
+                            <div class="placeholder-avatar w-100 rounded-circle d-flex align-items-center justify-content-center bg-light" style="height: 150px;">
+                                <i class="fa fa-user fa-5x text-secondary"></i>
+                            </div>
+                        }
+                    </div>
+                </div>
 
                 <partial name="PartialViews/CreateEditPartial"></partial>
 

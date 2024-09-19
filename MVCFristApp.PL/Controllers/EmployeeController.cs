@@ -5,6 +5,7 @@ using Microsoft.Extensions.Hosting;
 using MVCFristApp.BLL.Interfaces;
 using MVCFristApp.BLL.Repositories;
 using MVCFristApp.DAL.Models;
+using MVCFristApp.PL.Helpers;
 using MVCFristApp.PL.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -13,15 +14,18 @@ namespace MVCFristApp.PL.Controllers
 {
     public class EmployeeController : Controller
     {
-        private readonly IEmployeeRepository _employeeRepository;
-        private readonly IDepartmentRepository _departmentRepository;
+        private readonly IUnitOfWork _unitOfWork;
+
+        //private readonly IEmployeeRepository _employeeRepository;
+        //private readonly IDepartmentRepository _departmentRepository;
         private readonly IWebHostEnvironment _environment;
         private readonly IMapper _iMapper;
 
-        public EmployeeController(IEmployeeRepository repository,IDepartmentRepository departmentRepository ,IWebHostEnvironment environment,IMapper iMapper)
+        public EmployeeController(/*IEmployeeRepository repository,IDepartmentRepository departmentRepository*/IUnitOfWork unitOfWork ,IWebHostEnvironment environment,IMapper iMapper)
         {
-            _employeeRepository = repository;
-            _departmentRepository = departmentRepository;
+            //_employeeRepository = repository;
+            //_departmentRepository = departmentRepository;
+            _unitOfWork = unitOfWork;
             _environment = environment;
             _iMapper = iMapper;
         }
@@ -33,11 +37,11 @@ namespace MVCFristApp.PL.Controllers
 
             if (string.IsNullOrWhiteSpace(searchInpt))
             {
-                employees = _employeeRepository.GetAll();
+                employees = _unitOfWork.EmployeeRepository.GetAll();
             }
             else
             {
-                employees = _employeeRepository.GetByName(searchInpt.ToLower());
+                employees = _unitOfWork.EmployeeRepository.GetByName(searchInpt.ToLower());
                 ViewBag.SearchTerm = searchInpt;
             }
             var MappedEmployees=_iMapper.Map<IEnumerable<Employee>,IEnumerable<EmployeeViewModel>>(employees);
@@ -52,7 +56,7 @@ namespace MVCFristApp.PL.Controllers
             {
                 return BadRequest();
             }
-            var empDetails = _employeeRepository.GetById(Id.Value);
+            var empDetails = _unitOfWork.EmployeeRepository.GetById(Id.Value);
             var mappedEmployee = _iMapper.Map<Employee, EmployeeViewModel>(empDetails);
             if (mappedEmployee == null)
             {
@@ -65,7 +69,7 @@ namespace MVCFristApp.PL.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            var departmentNames= _departmentRepository.GetAll();
+            var departmentNames= _unitOfWork.DepartmentRepository.GetAll();
             ViewData["Departments"]=departmentNames;
             return View();
         }
@@ -73,6 +77,8 @@ namespace MVCFristApp.PL.Controllers
         public IActionResult Create(EmployeeViewModel employeeVM) {
             if (ModelState.IsValid) {
                 // Manual Mapping
+                employeeVM.ImageUrl = DocumentSettings.UploadFile(employeeVM.Image, "Images");
+
                 var mappedEmployee = new Employee()
                 {
                     Id = employeeVM.Id,
@@ -85,10 +91,11 @@ namespace MVCFristApp.PL.Controllers
                     Email = employeeVM.Email,
                     Phone = employeeVM.Phone,
                     workForId = employeeVM.workForId,
+                    ImageUrl = employeeVM.ImageUrl,
                     Gender = (DAL.Models.Gender)employeeVM.Gender,
                 };
-
-                var count = _employeeRepository.Add(mappedEmployee);
+                _unitOfWork.EmployeeRepository.Add(mappedEmployee);
+                var count = _unitOfWork.Compelete();
                 if (count > 0)
                 {
                     return RedirectToAction("Index");
@@ -102,7 +109,7 @@ namespace MVCFristApp.PL.Controllers
         [HttpGet]
         public IActionResult Update(int? id)
         {
-            var departmentNames = _departmentRepository.GetAll();
+            var departmentNames = _unitOfWork.DepartmentRepository.GetAll();
             var mappedDepartment= _iMapper.Map<IEnumerable<Department>,IEnumerable<DepartmentViewModel>>(departmentNames);
             ViewData["Departments"] = departmentNames;
             return Details(id, "Update");
@@ -117,8 +124,11 @@ namespace MVCFristApp.PL.Controllers
             }
             else
             {
+                employeeVm.ImageUrl = DocumentSettings.UploadFile(employeeVm.Image, "Images");
+
                 var MappedEmployee = _iMapper.Map<EmployeeViewModel, Employee>(employeeVm);
-                _employeeRepository.Update(MappedEmployee);
+                _unitOfWork.EmployeeRepository.Update(MappedEmployee);
+                _unitOfWork.Compelete();
                 return RedirectToAction("Index");
             }
         }
@@ -134,7 +144,9 @@ namespace MVCFristApp.PL.Controllers
             try
             {
                 var mappedEmployee = _iMapper.Map<EmployeeViewModel,Employee>(employeevm);  
-                _employeeRepository.Delete(mappedEmployee);
+                _unitOfWork.EmployeeRepository.Delete(mappedEmployee);
+                _unitOfWork.Compelete();
+                DocumentSettings.DeleteFile(employeevm.ImageUrl,"Images");
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
