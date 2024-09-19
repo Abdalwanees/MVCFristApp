@@ -9,6 +9,7 @@ using MVCFristApp.BLL.Interfaces;
 using MVCFristApp.BLL.Repositories;
 using MVCFristApp.DAL.Data;
 using MVCFristApp.PL.Extensions;
+using MVCFristApp.PL.Healpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,6 +39,7 @@ namespace MVCFristApp.PL
              ServiceLifetime.Scoped  // This sets the lifetime for the options being used by the DbContext
              );
             services.AddApplicationServices();
+            services.AddAutoMapper(M=>M.AddProfile(new MappingProfile())); //Lifetime Transient
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
