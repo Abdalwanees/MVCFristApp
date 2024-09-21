@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using MVCFristApp.DAL.Models;
 using MVCFristApp.PL.ViewModels;
+using System.Net;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
@@ -50,6 +53,7 @@ namespace MVCFristApp.PL.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult SignIn()
         {
             return View();
@@ -71,12 +75,19 @@ namespace MVCFristApp.PL.Controllers
                             return RedirectToAction(nameof(HomeController.Index), "Home");
                         }
 
-                        ModelState.AddModelError(string.Empty,errorMessage:"LogIn Faild");
+                        ModelState.AddModelError(string.Empty, errorMessage: "LogIn Faild");
 
                     }
                 }
             }
             return View(model);
+        }
+
+
+        public async Task<IActionResult> SignOut()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction(nameof(SignIn));
         }
     }
 }
