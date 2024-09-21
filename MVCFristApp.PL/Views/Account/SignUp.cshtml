@@ -1,0 +1,46 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model SignUpViewModel
+@{
+    ViewData["Title"] = "SignUp";
+    Layout = "~/Views/Shared/_AuthLayout.cshtml";
+}
+
+<div class="main-agileinfo">
+    <div class="agileits-top">
+        <form asp-action="SignUp" method="post">
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+
+            <input class="text my-3" asp-for="FName" placeholder="First Name" required="">
+            <span asp-validation-for="FName" class="text-danger"></span>
+
+            <input class="text" asp-for="LName" placeholder="Last Name" required="">
+            <span asp-validation-for="LName" class="text-danger"></span>
+
+            <input class="text email" asp-for="Email" placeholder="Email" required="">
+            <span asp-validation-for="Email" class="text-danger"></span>
+
+            <input class="text" asp-for="Password" type="password" placeholder="Password" required="">
+            <span asp-validation-for="Password" class="text-danger"></span>
+
+            <input class="text w3lpass" asp-for="ConfirmPassword" type="password" placeholder="Confirm Password" required="">
+            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+
+            <div class="wthree-text">
+                <label class="anim">
+                    <input type="checkbox" asp-for="IsAgree" class="checkbox" required="">
+                    <span>I Agree To The Terms & Conditions</span>
+                </label>
+                <span asp-validation-for="IsAgree" class="text-danger"></span>
+                <div class="clear"></div>
+            </div>
+
+            <input type="submit" value="SignUp">
+        </form>
+
+        @section ValidateSection {
+            <partial name="_ValidationScriptsPartial"></partial>
+        }
+
+        <p>Already have an account? <a asp-action="Login">Login Now!</a></p>
+    </div>
+</div>

@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>@ViewData["Title"]</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <meta name="description" content="A creative signup form with responsive design.">
+    <meta name="keywords" content="SignUp, Creative, Form, Responsive, Colorlib">
+
+    <!-- Custom Theme Files -->
+    <link href="~/css/authStyle.css" rel="stylesheet" type="text/css" media="all" />
+
+    <!-- Web Font -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i" rel="stylesheet">
+
+    <!-- JS to Hide URL Bar on Mobile Devices -->
+    <script type="application/x-javascript">
+        addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+        function hideURLbar() { window.scrollTo(0, 1); }
+    </script>
+</head>
+<body>
+    <!-- Main Container -->
+    <div class="main-w3layouts wrapper">
+        <h1>Creative @ViewData["Title"] Form</h1>
+
+        <!-- Render the Form Body -->
+        @RenderBody()
+
+        <!-- Footer Section -->
+        <div class="colorlibcopy-agile">
+            <p>© 2024 @ViewData["Title"] Form. All rights reserved | Design by <a href="https://colorlib.com/" target="_blank">Colorlib</a></p>
+        </div>
+
+        <!-- Background Bubbles -->
+        <ul class="colorlib-bubbles">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+
+    <!-- Include jQuery -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+    <!-- Optional Sections for Scripts and Validation -->
+    @await RenderSectionAsync("Scripts", required: false)
+    @await RenderSectionAsync("ValidateSection", required: false)
+</body>
+</html>
