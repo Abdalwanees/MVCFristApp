@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using MVCFristApp.BLL.Interfaces;
 using MVCFristApp.BLL.Repositories;
 using MVCFristApp.DAL.Data;
+using MVCFristApp.PL.AppSettingConfig;
 using MVCFristApp.PL.Extensions;
 using MVCFristApp.PL.Healpers;
 using System;
@@ -40,6 +41,7 @@ namespace MVCFristApp.PL
              );
             services.AddApplicationServices();
             services.AddAutoMapper(M=>M.AddProfile(new MappingProfile())); //Lifetime Transient
+            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -5,6 +5,7 @@ using MVCFristApp.BLL.Interfaces;
 using MVCFristApp.BLL.Repositories;
 using MVCFristApp.DAL.Data;
 using MVCFristApp.DAL.Models;
+using MVCFristApp.PL.Healpers;
 using System.Collections;
 
 namespace MVCFristApp.PL.Extensions
@@ -17,6 +18,7 @@ namespace MVCFristApp.PL.Extensions
             //services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<EmailSettings>();
 
             services.AddIdentity<ApplicationUser, IdentityRole>(
                 config =>
@@ -31,7 +33,7 @@ namespace MVCFristApp.PL.Extensions
                     config.Lockout.MaxFailedAccessAttempts = 5;
                     config.Lockout.DefaultLockoutTimeSpan = System.TimeSpan.FromMinutes(5);
                     config.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ";
-                }).AddEntityFrameworkStores<AppDbContext>();
+                }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
 
             //services.AddAuthentication("Cookies");// Default schema of Authentication
             //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
