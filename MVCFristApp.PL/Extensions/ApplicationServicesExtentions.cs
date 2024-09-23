@@ -46,10 +46,11 @@ namespace MVCFristApp.PL.Extensions
             services.ConfigureApplicationCookie(
                 config =>
                 {
-                    config.LoginPath = "/Account/SignIn"; 
+                    config.LoginPath = "/Account/SignIn";
                     config.ExpireTimeSpan = System.TimeSpan.FromDays(5);
                     config.SlidingExpiration = true;
                 });
+
 
             //-->Inside This we can regiseter this three servicess
 
